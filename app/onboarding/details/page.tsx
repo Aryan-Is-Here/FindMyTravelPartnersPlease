@@ -18,9 +18,9 @@ export default function DetailsPage() {
   }, []);
 
   return (
-    <main className="max-w-md w-full mx-auto p-5">
-      <p className="text-sm text-stone-500">Step 1 of 2</p>
-      <h1 className="font-display text-3xl mt-1 mb-6">About you</h1>
+    <main className="max-w-md w-full mx-auto px-5 pt-10 pb-16">
+      <p className="eyebrow">Step 1 of 2</p>
+      <h1 className="font-display text-[72px] mt-2 mb-8">About <span className="text-burgundy">you</span></h1>
       {auth && (
         <UserDetailsForm
           email={auth.email}

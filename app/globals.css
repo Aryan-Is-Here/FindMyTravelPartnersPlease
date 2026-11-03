@@ -1,55 +1,142 @@
 @import "tailwindcss";
 
-:root {
-  --paper: #fbf7f0;
-  --ink: #1c1917;
-  --accent: #e8590c;
+/*
+  Palette: muted sage grey, warm cream beige, deep burgundy.
+  The stone scale is remapped to warm sage greys so every neutral in the app follows the palette.
+*/
+@theme {
+  --color-stone-50: #f8f3eb;
+  --color-stone-100: #ece8df;
+  --color-stone-200: #dcddd3;
+  --color-stone-300: #c4c8bb;
+  --color-stone-400: #9ca597;
+  --color-stone-500: #76806f;
+  --color-stone-600: #5e6a5b;
+  --color-stone-700: #464f44;
+  --color-stone-800: #33392f;
+  --color-stone-900: #2b2224;
+
+  --color-cream: #efe7da;
+  --color-paper: #f8f3eb;
+  --color-sage: #9ca597;
+  --color-sage-pale: #dce0d6;
+  --color-sage-deep: #5e6a5b;
+  --color-burgundy: #6e1f2f;
+  --color-burgundy-deep: #4b1320;
+  --color-ink: #2b2224;
 }
 
 @theme inline {
-  --font-sans: var(--font-geist-sans);
-  --font-display: var(--font-fraunces);
+  --font-sans: var(--font-body);
+  --font-tall: var(--font-six-caps);
+  --font-cond: var(--font-antonio);
+}
+
+:root {
+  --paper: #f8f3eb;
+  --ink: #2b2224;
+  --accent: #6e1f2f;
+  --burgundy-gradient: linear-gradient(160deg, #84293c 0%, #6e1f2f 45%, #4b1320 100%);
 }
 
 body {
-  background: var(--paper);
   color: var(--ink);
+  background: linear-gradient(172deg, #d7ddd0 0%, #e6e4d8 22%, #efe7da 48%, #efe7da 78%, #ead8d3 100%) fixed;
+}
+
+::selection {
+  background: #6e1f2f;
+  color: #f8f3eb;
+}
+
+:focus-visible {
+  outline: 2px solid #6e1f2f;
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
 }
 
 @layer components {
+  /* Tall, ultra-condensed display type. Use large sizes only. */
   .font-display {
-    font-family: var(--font-display);
-    font-weight: 600;
-    letter-spacing: -0.02em;
+    font-family: var(--font-six-caps);
+    font-weight: 400;
+    line-height: 0.86;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+  }
+  /* Condensed caps for eyebrows, tags, numbers. */
+  .font-label {
+    font-family: var(--font-antonio);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
+  .eyebrow {
+    @apply font-cond text-[11px] font-medium tracking-[0.14em] uppercase text-stone-500;
   }
   .input {
-    @apply w-full rounded-lg border border-stone-300 bg-white px-3 py-2 text-base outline-none focus:border-[var(--accent)] focus:ring-2 focus:ring-orange-200 disabled:bg-stone-100 disabled:text-stone-500;
+    @apply w-full rounded-md border border-stone-300 bg-[var(--paper)] px-3 py-2.5 text-base outline-none transition focus:border-burgundy focus:ring-2 focus:ring-burgundy/15 disabled:bg-stone-100 disabled:text-stone-500;
   }
-  .btn {
-    @apply inline-flex items-center justify-center rounded-lg bg-[var(--ink)] px-4 py-2 font-medium text-white transition hover:bg-stone-700 disabled:opacity-50;
+  .btn,
+  .btn-accent {
+    @apply inline-flex items-center justify-center gap-2 rounded-md px-5 py-2.5 text-sm font-medium tracking-[0.12em] uppercase text-paper shadow-[0_1px_0_rgba(255,255,255,0.15)_inset,0_6px_16px_-8px_rgba(75,19,32,0.6)] transition hover:brightness-110 active:translate-y-px disabled:opacity-50;
+    font-family: var(--font-antonio);
+    background: var(--burgundy-gradient);
   }
   .btn-ghost {
-    @apply inline-flex items-center justify-center rounded-lg border border-stone-300 bg-white px-4 py-2 font-medium transition hover:bg-stone-100 disabled:opacity-50;
-  }
-  .btn-accent {
-    @apply inline-flex items-center justify-center rounded-lg bg-[var(--accent)] px-4 py-2 font-medium text-white transition hover:brightness-110 disabled:opacity-50;
+    @apply inline-flex items-center justify-center gap-2 rounded-md border border-stone-300 bg-transparent px-5 py-2.5 font-cond tracking-[0.12em] uppercase text-sm font-medium text-ink transition hover:border-burgundy hover:text-burgundy disabled:opacity-50;
   }
   .btn-sm {
-    @apply px-3 py-1 text-sm;
+    @apply px-3.5 py-1.5 text-xs;
   }
   .card {
-    @apply rounded-xl border border-stone-200 bg-white p-4;
+    @apply rounded-xl border border-stone-200/80 bg-[var(--paper)]/85 p-4 shadow-[0_1px_2px_rgba(43,34,36,0.04),0_12px_32px_-20px_rgba(43,34,36,0.25)] backdrop-blur-sm;
   }
   .chip {
-    @apply rounded-full border border-stone-300 bg-white px-3 py-1 text-sm transition;
+    @apply rounded-full border border-stone-300 bg-[var(--paper)] px-3.5 py-1.5 text-sm transition hover:border-stone-500;
   }
   .chip-on {
-    @apply border-[var(--ink)] bg-[var(--ink)] text-white;
-  }
-  .badge {
-    @apply inline-block rounded-full bg-emerald-100 px-2 py-0.5 text-[11px] font-medium text-emerald-800;
+    @apply border-burgundy bg-burgundy text-paper hover:border-burgundy;
   }
   .tag {
-    @apply inline-block rounded-md bg-stone-100 px-2 py-0.5 text-xs text-stone-700;
+    @apply inline-block rounded-sm bg-sage-pale/80 px-2 py-0.5 font-cond tracking-[0.1em] uppercase text-[11px] text-sage-deep;
+  }
+
+  /* Segmented tabs. */
+  .seg {
+    @apply inline-flex rounded-full border border-stone-200 bg-sage-pale/60 p-1;
+  }
+  .seg > button {
+    @apply rounded-full px-5 py-1.5 font-cond text-xs uppercase tracking-[0.14em] text-sage-deep transition hover:text-ink;
+  }
+  .seg > button.seg-on {
+    @apply bg-burgundy text-paper shadow-sm hover:text-paper;
+  }
+
+  /* Boarding-pass card: burgundy stub on the left with the destination set tall. */
+  .ticket {
+    @apply relative flex overflow-hidden rounded-xl border border-stone-200/80 bg-[var(--paper)] shadow-[0_1px_2px_rgba(43,34,36,0.05),0_16px_36px_-22px_rgba(43,34,36,0.35)];
+  }
+  .ticket-stub {
+    @apply relative flex w-24 shrink-0 flex-col items-center justify-between px-2 py-3 text-paper sm:w-28;
+    background: var(--burgundy-gradient);
+  }
+  /* Perforation between stub and body. */
+  .ticket-stub::after {
+    content: "";
+    position: absolute;
+    top: 8px;
+    bottom: 8px;
+    right: -1px;
+    width: 2px;
+    background: radial-gradient(circle, var(--paper) 1.5px, transparent 1.6px) 0 0 / 2px 8px repeat-y;
+  }
+  .ticket-body {
+    @apply min-w-0 flex-1 p-4;
   }
 }
